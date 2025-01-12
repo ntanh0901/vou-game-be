@@ -5,6 +5,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Enable CORS to be accessible from anywhere
+  app.enableCors();
+
   const config = new DocumentBuilder()
     .setTitle('Vou Game API')
     .setDescription('API documentation for Vou Game')

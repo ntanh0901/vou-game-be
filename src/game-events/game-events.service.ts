@@ -11,8 +11,8 @@ export class GameEventsService {
     @InjectModel(Player.name) private playerModel: Model<PlayerDocument>,
   ) {}
 
-  async getQuestionByIndex(index: number, event: string) {
-    return this.questionsService.getQuestionsByIndex(index, event);
+  async getQuestionByIndex(quizSetId: string, index: number) {
+    return this.questionsService.getQuestionByIndex(quizSetId, index);
   }
 
   async validateAnswer(questionId: string, answerIndex: number) {

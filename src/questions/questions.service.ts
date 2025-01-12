@@ -39,7 +39,10 @@ export class QuestionsService {
     return this.questionModel.findByIdAndDelete(id).exec();
   }
 
-  async getQuestionsByIndex(index: number, event: string): Promise<Question[]> {
-    return this.questionModel.find({ index, event }).exec();
+  async getQuestionByIndex(
+    quizSetId: string,
+    index: number,
+  ): Promise<Question> {
+    return this.questionModel.findOne({ quizSetId, index }).exec();
   }
 }

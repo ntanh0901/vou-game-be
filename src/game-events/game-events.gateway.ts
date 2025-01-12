@@ -57,7 +57,7 @@ export class GameEventsGateway {
 
   @SubscribeMessage('startCountdown')
   handleStartCountdown(
-    @MessageBody() data: { room: string; countdown: number },
+    @MessageBody() data: { room: string; countdown: number; quizSetId: string },
     @ConnectedSocket() client: Socket,
   ) {
     let countdown = data.countdown;
@@ -69,18 +69,18 @@ export class GameEventsGateway {
         clearInterval(interval);
         this.server.to(data.room).emit('gameStarted');
         this.gameStarted = true;
-        this.startQuestionEmission(data.room);
+        this.startQuestionEmission(data.room, data.quizSetId);
       }
     }, 1000);
   }
 
-  private async startQuestionEmission(room: string) {
+  private async startQuestionEmission(room: string, quizSetId: string) {
     const questionInterval = setInterval(async () => {
       const question = await this.gameEventsService.getQuestionByIndex(
+        quizSetId,
         this.currentQuestionIndex,
-        room,
       );
-      if (question.length > 0) {
+      if (question) {
         this.questionStartTime = Date.now(); // Store the start time of the question
         this.currentQuestion = question; // Store the current question
         this.server.to(room).emit('newQuestion', question);
