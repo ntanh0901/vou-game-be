@@ -1,14 +1,37 @@
-import { IsNumber, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+  IsString,
+  Min,
+  IsMongoId,
+} from 'class-validator';
+import { QuizDifficulty, QuizQuestionType } from 'src/enum/questions.enum';
 
 export class CreateQuestionDto {
   @IsString()
-  text: string;
+  @IsNotEmpty()
+  question: string;
+
+  @IsArray()
   @IsString({ each: true })
+  @IsNotEmpty({ each: true })
   options: string[];
-  @IsNumber()
-  correctAnswerIndex: number;
+
+  @IsInt()
+  @Min(0)
+  correctIndex: number;
+
   @IsString()
-  event: string;
-  @IsNumber()
-  index: number;
+  hint: string;
+
+  @IsEnum(QuizQuestionType)
+  questionType: QuizQuestionType;
+
+  @IsEnum(QuizDifficulty)
+  difficulty: QuizDifficulty;
+
+  //@IsMongoId()
+  quizSet: string;
 }

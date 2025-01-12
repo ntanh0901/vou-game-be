@@ -17,7 +17,7 @@ export class GameEventsService {
 
   async validateAnswer(questionId: string, answerIndex: number) {
     const question = await this.questionsService.getQuestionById(questionId);
-    return question.correctAnswerIndex === answerIndex;
+    return question.correctIndex === answerIndex;
   }
 
   async createPlayer(player: Player): Promise<Player> {
